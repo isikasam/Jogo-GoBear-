@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Go Bear! – Aventura na Floresta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===================== TELA INICIAL ===================== -->
+    <section id="screen-title" class="screen active">
+      <div class="title-wrap">
+        <img src="assets/logo.png" alt="Go Bear!" class="logo-img" />
+        <img src="assets/ursinho.png" alt="Ursinho" class="title-bear" />
+        <button id="btn-start" class="btn-start" aria-label="Iniciar">
+          <img src="assets/botao_iniciar.png" alt="INICIAR" />
+        </button>
+        <p class="hint">SETAS ou A/D para andar · ESPAÇO para pular · ESC para pausar</p>
+      </div>
+      <img src="assets/placa.png" alt="" class="title-placa" />
+    </section>
+
+    <!-- ===================== MAPA DE FASES ===================== -->
+    <section id="screen-map" class="screen">
+      <svg id="map-path" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+      <div id="map-nodes"></div>
+      <img src="assets/bear.png" alt="" id="map-bear" />
+      <div class="map-top">
+        <div class="panel small"><span class="coin-ico"></span> <span id="map-coins">0</span></div>
+      </div>
+      <button id="btn-home" class="image-button" aria-label="Voltar para início">
+        <img src="assets/botao_voltar.png" alt="" draggable="false" />
+      </button>
+    </section>
+
+    <!-- ===================== JOGO ===================== -->
+    <section id="screen-game" class="screen">
+      <canvas id="game" width="960" height="540"></canvas>
+
+      <div class="hud">
+        <div class="panel hud-left">
+          <img src="assets/bear.png" alt="" class="hud-face" />
+          <div>
+            <div id="hud-hearts" class="hearts"></div>
+            <div class="hud-coins"><span class="coin-ico"></span> × <span id="hud-coins">0</span></div>
+          </div>
+        </div>
+        <div class="hud-right">
+          <div class="panel small"><span class="key-ico"></span> <span id="hud-keys">0/3</span>
+            <span class="sep"></span><span class="crown-ico"></span> <span id="hud-crowns">0/2</span></div>
+          <button id="btn-pause" class="image-button" aria-label="Pausar"><img src="assets/05_botao_pause.png" alt="" draggable="false" /></button>
+        </div>
+      </div>
+
+      <div id="toast" class="toast"></div>
+
+      <!-- Controles de movimento (mouse e toque) -->
+      <div class="touch">
+        <div class="touch-left">
+          <button class="image-button tbtn" data-key="left" aria-label="Esquerda"><img src="assets/botao_esquerda.png" alt="" draggable="false" /></button>
+          <button class="image-button tbtn" data-key="right" aria-label="Direita"><img src="assets/botao_direita.png" alt="" draggable="false" /></button>
+        </div>
+        <button class="image-button tbtn tbtn-jump" data-key="jump" aria-label="Pular"><img src="assets/botao_pular.png" alt="" draggable="false" /></button>
+      </div>
+
+      <!-- Pausa -->
+      <div id="modal-pause" class="modal">
+        <div class="pause-panel" role="dialog" aria-label="Pausado" aria-modal="true">
+          <img class="pause-panel-image" src="assets/painel_pausado.png" alt="" draggable="false" />
+          <div class="pause-actions">
+            <button class="image-button" data-action="resume" aria-label="Continuar"><img src="assets/botao_continuar.png" alt="" draggable="false" /></button>
+            <button class="image-button" data-action="restart" aria-label="Reiniciar"><img src="assets/botao_reiniciar.png" alt="" draggable="false" /></button>
+            <button class="image-button" data-action="exit" aria-label="Sair"><img src="assets/botao_sair.png" alt="" draggable="false" /></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fase completa -->
+      <div id="modal-win" class="modal">
+        <div class="modal-box">
+          <h2>FASE COMPLETA!</h2>
+          <div id="win-stars" class="stars-big"></div>
+          <p class="modal-info">Moedas: <b id="win-coins">0</b></p>
+          <button class="btn btn-green" data-action="next"><span class="ico-play"></span> PRÓXIMA</button>
+          <button class="btn btn-orange" data-action="restart">⟳ REPETIR</button>
+          <button class="btn btn-red" data-action="exit"><span class="ico-home"></span> MAPA</button>
+        </div>
+      </div>
+
+      <!-- Fim de jogo -->
+      <div id="modal-over" class="modal">
+        <div class="modal-box">
+          <h2>FIM DE JOGO</h2>
+          <p class="modal-info">O ursinho perdeu todas as vidas!</p>
+          <button class="btn btn-orange" data-action="restart">⟳ TENTAR DE NOVO</button>
+          <button class="btn btn-red" data-action="exit"><span class="ico-home"></span> MAPA</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="levels.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
